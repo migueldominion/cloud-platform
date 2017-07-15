@@ -20,6 +20,7 @@ security:
       accessTokenUri: http://localhost:8080/web-app/auth/oauth/token
       userAuthorizationUri: http://localhost:8080/web-app/auth/oauth/authorize
       clientId: web-app
+      clientSecret: secret
       preEstablishedRedirectUri: http://localhost:8080/web-app/login
       registeredRedirectUri: http://localhost:8080/web-app/login
       useCurrentUri: false

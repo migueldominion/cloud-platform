@@ -6,3 +6,10 @@ security:
   user:
     password: password
   sessions: if-required
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate: ERROR
