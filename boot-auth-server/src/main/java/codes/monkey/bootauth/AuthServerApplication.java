@@ -19,21 +19,25 @@ import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import codes.monkey.bootauth.security.CustomAuthenticationProvider;
 
 @SpringBootApplication
 //@EnableResourceServer
@@ -49,6 +53,8 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
     @Order(-20)
     static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @Autowired
+        private UserDetailsService userDetailsService;
 
         @Override
         @Bean
@@ -74,7 +80,8 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.inMemoryAuthentication()
+            auth.authenticationProvider(authProvider());
+            /*auth.inMemoryAuthentication()
                     .withUser("reader")
                     .password("reader")
                     .authorities("ROLE_READER")
@@ -85,8 +92,23 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
                     .and()
                     .withUser("guest")
                     .password("guest")
-                    .authorities("ROLE_GUEST");
+                    .authorities("ROLE_GUEST");*/
         }
+
+        // beans
+
+		@Bean
+		public DaoAuthenticationProvider authProvider() {
+			final CustomAuthenticationProvider authProvider = new CustomAuthenticationProvider();
+			authProvider.setUserDetailsService(userDetailsService);
+			authProvider.setPasswordEncoder(encoder());
+			return authProvider;
+		}
+
+		@Bean
+		public PasswordEncoder encoder() {
+			return new BCryptPasswordEncoder(11);
+		}
     }
 
     @Configuration

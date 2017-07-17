@@ -29,6 +29,7 @@ target/
 .settings/
 *.project
 *.classpath
+.springBeans
 .prefs
 *.prefs
 .metadata/
