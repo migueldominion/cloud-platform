@@ -46,7 +46,7 @@ class MicroserviceApplication {
         public void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/**").hasAuthority("ROLE_READER");
+                    .antMatchers("/**").hasAuthority("READ_PRIVILEGE");
         }
 
     }
