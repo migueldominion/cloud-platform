@@ -3,7 +3,7 @@ A sample project to show [how to use JWT and OAuth with Spring Boot](http://blog
 
 The sample consists of three distinct applications:
 
-* Auth Server - Provides SSO and OAuth endpoints
+* Auth Server - Provides SSO and OAuth endpoints. I've integrated into Auth Server a complete [User Registration Flow](http://www.baeldung.com/spring-security-registration).
 * Web App - Basic stateful web application with a Zuul API Gateway configured.
 * Microservice - Stateless protected API Resource.
 
