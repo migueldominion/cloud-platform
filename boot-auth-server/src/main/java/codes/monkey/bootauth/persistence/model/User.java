@@ -42,6 +42,7 @@ public class User implements Serializable{
 
     private boolean isUsing2FA;
 
+    private String secret;
     //
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -115,6 +116,14 @@ public class User implements Serializable{
 
     public void setUsing2FA(boolean isUsing2FA) {
         this.isUsing2FA = isUsing2FA;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     @Override
