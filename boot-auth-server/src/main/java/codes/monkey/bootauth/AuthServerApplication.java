@@ -126,9 +126,7 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
 						.invalidateHttpSession(false)
 						.logoutSuccessUrl("/auth/logout.html?logSucc=true")
 						.deleteCookies("JSESSIONID")
-						.permitAll()
-				.and()
-				.csrf().disable();
+						.permitAll();
         }
 
         @Override

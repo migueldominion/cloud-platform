@@ -43,7 +43,7 @@ label{padding-left:0 !important}
              <a href="?lang=es_ES" th:text="#{label.form.loginSpanish}">login</a>
             <br/><br/>
             
-            <form name='f' action="login" method='POST' onsubmit="return validate();">
+            <form name='f' action="login" th:action="login" method='POST' onsubmit="return validate();">
                  <span id="welcometext">&nbsp;</span>
                  
                  <br /><br />
