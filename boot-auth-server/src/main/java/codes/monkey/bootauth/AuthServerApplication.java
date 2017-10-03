@@ -102,7 +102,7 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
                     .requestMatchers()
                     //specify urls handled
                     .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access")
-                    .antMatchers("/fonts/**", "/js/**", "/css/**")
+                    .antMatchers("/fonts/**", "/js/**", "/css/**", "/sbadmin2/**")
                     // add templates only here if need to be protected by login page
                     .antMatchers("/admin.html","/console.html","/changePassword.html","/home.html","/homePage.html","/logout.html")
                     .antMatchers("/login*","/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
@@ -112,13 +112,14 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
                     .antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*")
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/fonts/**", "/js/**", "/css/**").permitAll()
+                    .antMatchers("/fonts/**", "/js/**", "/css/**", "/sbadmin2/**").permitAll()
                     //.antMatchers("/registration.html").permitAll
 	                .antMatchers("/login*","/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
 	                        "/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
 	                        "/badUser*", "/user/resendRegistrationToken*" ,"/forgetPassword*", "/user/resetPassword*",
 	                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*","/successRegister*","/qrcode*").permitAll()
 	                //.antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+	                .antMatchers("/admin*").hasAuthority("WRITE_PRIVILEGE")
                     .anyRequest().authenticated()
                     .and()
                     .logout()

@@ -2,23 +2,13 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
 <title th:text="#{label.pages.home.title}">home</title>
+<div th:replace="fragments/navbarcss :: navbarcss"></div>
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" th:href="@{/home.html}" th:text="#{label.pages.home.title}">home</a>
-    </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="javascript: document.logoutForm.submit()" th:text="#{label.pages.logout}">logout</a> </li>
-      </ul>
-      <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-        <input th:hidden="true" type="submit" value="Sign Out"/>
-      </form>
-    </div>
-</nav>
+<div id="wrapper">
+<div th:replace="fragments/navbar :: navbar"></div>
 
-    <div class="container">
+    <div id="page-wrapper">
 	    <div sec:authorize="hasAuthority('WRITE_PRIVILEGE')" th:text="#{label.pages.user.message}">user</div>
 	
 	    <div sec:authorize="hasAuthority('WRITE_PRIVILEGE')" th:text="#{label.pages.admin.message}"></div>
@@ -32,5 +22,7 @@
 	    <a th:href="@{/loggedUsersFromSessionRegistry}" th:text="#{label.pages.users.sessionregistry.message}">View logged in users</a>
 	    
     </div>
+</div>
+    <div th:replace="fragments/navbarjs :: navbarjs"></div>
 </body>
 </html>

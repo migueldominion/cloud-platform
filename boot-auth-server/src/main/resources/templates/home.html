@@ -3,24 +3,24 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
 <title th:text="#{label.pages.home.title}">home</title>
+<div th:replace="fragments/navbarcss :: navbarcss"></div>
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#" th:text="#{label.pages.home.title}">home</a>
+<div id="wrapper">
+<div th:replace="fragments/navbar :: navbar"></div>
+
+    <div id="page-wrapper">
+   	<div class="row">
+        <div class="col-lg-12">
+    		<h1 th:text="#{label.pages.home.message}">home</h1>
+        </div>
+        <!-- /.col-lg-12 -->
     </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="javascript: document.logoutForm.submit()" th:text="#{label.pages.logout}">logout</a> </li>
-      </ul>
-      <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-        <input th:hidden="true" type="submit" value="Sign Out"/>
-      </form>
-  </div>
-</nav>
-    <div class="container">
-            <h1 th:text="#{label.pages.home.message}">home</h1>
+    <!-- /.row -->
+            
     </div>
+</div>
+    <div th:replace="fragments/navbarjs :: navbarjs"></div>
 </body>
 
 </html>
