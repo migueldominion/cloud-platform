@@ -6,16 +6,16 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
-    private static final long serialVersionUID = 1L;
-    
-    private final String verificationCode;
+	private static final long serialVersionUID = 1L;
 
-    public CustomWebAuthenticationDetails(HttpServletRequest request) {
-        super(request);
-        verificationCode = request.getParameter("code");
-    }
+	private final String verificationCode;
 
-    public String getVerificationCode() {
-        return verificationCode;
-    }
+	public CustomWebAuthenticationDetails(HttpServletRequest request) {
+		super(request);
+		verificationCode = request.getParameter("code");
+	}
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
 }

@@ -51,103 +51,91 @@ import codes.monkey.bootauth.security.google2fa.CustomAuthenticationProvider;
 import codes.monkey.bootauth.security.google2fa.CustomWebAuthenticationDetailsSource;
 
 @SpringBootApplication
-//@EnableResourceServer
-class AuthServerApplication extends WebMvcConfigurerAdapter{
+// @EnableResourceServer
+class AuthServerApplication extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/admin.html");
-        registry.addViewController("/badUser.html");
-        registry.addViewController("/changePassword.html");
-        registry.addViewController("/console.html");
-        registry.addViewController("/emailError.html");
-        registry.addViewController("/forgetPassword.html");
-        registry.addViewController("/home.html");
-        registry.addViewController("/homePage.html");
-        registry.addViewController("/logout.html");
-        registry.addViewController("/qrcode.html");
-        registry.addViewController("/registration.html");
-        registry.addViewController("/registrationCaptcha.html");
-        registry.addViewController("/registrationConfirm.html");
-        registry.addViewController("/successRegister.html");
-        registry.addViewController("/updatePassword.html");
-    }
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/admin.html");
+		registry.addViewController("/badUser.html");
+		registry.addViewController("/changePassword.html");
+		registry.addViewController("/console.html");
+		registry.addViewController("/emailError.html");
+		registry.addViewController("/forgetPassword.html");
+		registry.addViewController("/home.html");
+		registry.addViewController("/homePage.html");
+		registry.addViewController("/logout.html");
+		registry.addViewController("/qrcode.html");
+		registry.addViewController("/registration.html");
+		registry.addViewController("/registrationCaptcha.html");
+		registry.addViewController("/registrationConfirm.html");
+		registry.addViewController("/successRegister.html");
+		registry.addViewController("/updatePassword.html");
+	}
 
-    @Configuration
-    @Order(-20)
-    static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Configuration
+	@Order(-20)
+	static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-        @Autowired
-        private UserDetailsService userDetailsService;
+		@Autowired
+		private UserDetailsService userDetailsService;
 
-        @Autowired
-        private CustomWebAuthenticationDetailsSource authenticationDetailsSource;
+		@Autowired
+		private CustomWebAuthenticationDetailsSource authenticationDetailsSource;
 
-        @Autowired
-        private LogoutSuccessHandler myLogoutSuccessHandler;
+		@Autowired
+		private LogoutSuccessHandler myLogoutSuccessHandler;
 
-        @Override
-        @Bean
+		@Override
+		@Bean
 		public AuthenticationManager authenticationManagerBean() throws Exception {
-          return super.authenticationManagerBean();
-        }
+			return super.authenticationManagerBean();
+		}
 
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
 
-            http
-                .formLogin().loginPage("/login").authenticationDetailsSource(authenticationDetailsSource).permitAll()
-                    .and().httpBasic().and()
-                    .requestMatchers()
-                    //specify urls handled
-                    .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access")
-                    .antMatchers("/fonts/**", "/js/**", "/css/**", "/sbadmin2/**")
-                    // add templates only here if need to be protected by login page
-                    .antMatchers("/admin.html","/console.html","/changePassword.html","/home.html","/homePage.html","/logout.html")
-                    .antMatchers("/login*","/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
-	                        "/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
-	                        "/badUser*", "/user/resendRegistrationToken*" ,"/forgetPassword*", "/user/resetPassword*",
-	                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*","/successRegister*","/qrcode*")
-                    .antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*")
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers("/fonts/**", "/js/**", "/css/**", "/sbadmin2/**").permitAll()
-                    //.antMatchers("/registration.html").permitAll
-	                .antMatchers("/login*","/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
-	                        "/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
-	                        "/badUser*", "/user/resendRegistrationToken*" ,"/forgetPassword*", "/user/resetPassword*",
-	                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*","/successRegister*","/qrcode*").permitAll()
-	                //.antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-	                .antMatchers("/admin*").hasAuthority("WRITE_PRIVILEGE")
-                    .anyRequest().authenticated()
-                    .and()
-                    .logout()
-						.logoutSuccessHandler(myLogoutSuccessHandler)
-						.invalidateHttpSession(false)
-						.logoutSuccessUrl("/auth/logout.html?logSucc=true")
-						.deleteCookies("JSESSIONID")
-						.permitAll();
-        }
+			http.formLogin().loginPage("/login").authenticationDetailsSource(authenticationDetailsSource).permitAll()
+					.and().httpBasic().and().requestMatchers()
+					// specify urls handled
+					.antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access")
+					.antMatchers("/fonts/**", "/js/**", "/css/**", "/sbadmin2/**")
+					// add templates only here if need to be protected by login page
+					.antMatchers("/admin.html", "/console.html", "/changePassword.html", "/home.html", "/homePage.html",
+							"/logout.html")
+					.antMatchers("/login*", "/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
+							"/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
+							"/badUser*", "/user/resendRegistrationToken*", "/forgetPassword*", "/user/resetPassword*",
+							"/user/changePassword*", "/emailError*", "/resources/**", "/old/user/registration*",
+							"/successRegister*", "/qrcode*")
+					.antMatchers("/user/updatePassword*", "/user/savePassword*", "/updatePassword*").and()
+					.authorizeRequests().antMatchers("/fonts/**", "/js/**", "/css/**", "/sbadmin2/**").permitAll()
+					// .antMatchers("/registration.html").permitAll
+					.antMatchers("/login*", "/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
+							"/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
+							"/badUser*", "/user/resendRegistrationToken*", "/forgetPassword*", "/user/resetPassword*",
+							"/user/changePassword*", "/emailError*", "/resources/**", "/old/user/registration*",
+							"/successRegister*", "/qrcode*")
+					.permitAll()
+					// .antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+					.antMatchers("/admin*").hasAuthority("WRITE_PRIVILEGE").anyRequest().authenticated().and().logout()
+					.logoutSuccessHandler(myLogoutSuccessHandler).invalidateHttpSession(false)
+					.logoutSuccessUrl("/auth/logout.html?logSucc=true").deleteCookies("JSESSIONID").permitAll();
+		}
 
-        @Override
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.authenticationProvider(authProvider());
-            /*auth.inMemoryAuthentication()
-                    .withUser("reader")
-                    .password("reader")
-                    .authorities("ROLE_READER")
-                    .and()
-                    .withUser("writer")
-                    .password("writer")
-                    .authorities("ROLE_READER", "ROLE_WRITER")
-                    .and()
-                    .withUser("guest")
-                    .password("guest")
-                    .authorities("ROLE_GUEST");*/
-        }
+		@Override
+		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+			auth.authenticationProvider(authProvider());
+			/*
+			 * auth.inMemoryAuthentication() .withUser("reader") .password("reader")
+			 * .authorities("ROLE_READER") .and() .withUser("writer") .password("writer")
+			 * .authorities("ROLE_READER", "ROLE_WRITER") .and() .withUser("guest")
+			 * .password("guest") .authorities("ROLE_GUEST");
+			 */
+		}
 
-        // beans
+		// beans
 
 		@Bean
 		public DaoAuthenticationProvider authProvider() {
@@ -162,63 +150,62 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
 			return new BCryptPasswordEncoder(11);
 		}
 
-	    @Bean
-	    public SessionRegistry sessionRegistry() {
-	        return new SessionRegistryImpl();
-	    }
-    }
+		@Bean
+		public SessionRegistry sessionRegistry() {
+			return new SessionRegistryImpl();
+		}
+	}
 
-    @Configuration
-    @EnableAuthorizationServer
+	@Configuration
+	@EnableAuthorizationServer
 	@PropertySource({ "classpath:persistence.properties" })
-    static class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
+	static class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
-        @Autowired
-        @Qualifier("authenticationManagerBean")
-        AuthenticationManager authenticationManager;
+		@Autowired
+		@Qualifier("authenticationManagerBean")
+		AuthenticationManager authenticationManager;
 
 		@Autowired
 		private Environment env;
-		
+
 		@Value("classpath:schema.sql")
 		private Resource schemaScript;
-		
+
 		@Value("classpath:data.sql")
 		private Resource dataScript;
-		
-        @Override
-        public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+
+		@Override
+		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients.jdbc(dataSource());
-            /*clients.inMemory()
-                    .withClient("web-app")
-                    .scopes("read")
-                    .autoApprove(true)
-                    .accessTokenValiditySeconds(600)
-                    .refreshTokenValiditySeconds(600)
-                    .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code");*/
-        }
+			/*
+			 * clients.inMemory() .withClient("web-app") .scopes("read") .autoApprove(true)
+			 * .accessTokenValiditySeconds(600) .refreshTokenValiditySeconds(600)
+			 * .authorizedGrantTypes("implicit", "refresh_token", "password",
+			 * "authorization_code");
+			 */
+		}
 
-        @Override
-        public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-            endpoints.tokenStore(tokenStore()).tokenEnhancer(jwtTokenEnhancer()).authenticationManager(authenticationManager);
-        }
+		@Override
+		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+			endpoints.tokenStore(tokenStore()).tokenEnhancer(jwtTokenEnhancer())
+					.authenticationManager(authenticationManager);
+		}
 
+		@Bean
+		TokenStore tokenStore() {
+			return new JdbcTokenStore(dataSource());
+		}
 
-        @Bean
-        TokenStore tokenStore() {
-            return new JdbcTokenStore(dataSource());
-        }
+		@Bean
+		protected JwtAccessTokenConverter jwtTokenEnhancer() {
+			KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"),
+					"mySecretKey".toCharArray());
+			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+			converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt"));
+			return converter;
+		}
 
-        @Bean
-        protected JwtAccessTokenConverter jwtTokenEnhancer() {
-            KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(
-                    new ClassPathResource("jwt.jks"), "mySecretKey".toCharArray());
-            JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-            converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt"));
-            return converter;
-        }
-		
-		 // JDBC token store configuration
+		// JDBC token store configuration
 
 		@Bean
 		public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
@@ -240,34 +227,34 @@ class AuthServerApplication extends WebMvcConfigurerAdapter{
 			final DriverManagerDataSource dataSource = new DriverManagerDataSource();
 			dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
 			dataSource.setUrl(env.getProperty("jdbc.url"));
-			
+
 			dataSource.setUsername(env.getProperty("jdbc.user"));
 			dataSource.setPassword(env.getProperty("jdbc.pass"));
 			return dataSource;
 		}
 
-    }
+	}
 
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.ENGLISH);
-        return slr;
-    }
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver slr = new SessionLocaleResolver();
+		slr.setDefaultLocale(Locale.ENGLISH);
+		return slr;
+	}
 
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
-        return lci;
-    }
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+		lci.setParamName("lang");
+		return lci;
+	}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+	}
 
-    public static void main(String[] args) {
-    	SpringApplication.run(AuthServerApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(AuthServerApplication.class, args);
+	}
 }

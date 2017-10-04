@@ -19,31 +19,28 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class UserSecurityService implements ISecurityUserService {
 
-    @Autowired
-    private PasswordResetTokenRepository passwordTokenRepository;
+	@Autowired
+	private PasswordResetTokenRepository passwordTokenRepository;
 
-    // API
+	// API
 
-    @Override
-    public String validatePasswordResetToken(long id, String token) {
-        final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
-        if ((passToken == null) || (passToken.getUser()
-            .getId() != id)) {
-            return "invalidToken";
-        }
+	@Override
+	public String validatePasswordResetToken(long id, String token) {
+		final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
+		if ((passToken == null) || (passToken.getUser().getId() != id)) {
+			return "invalidToken";
+		}
 
-        final Calendar cal = Calendar.getInstance();
-        if ((passToken.getExpiryDate()
-            .getTime() - cal.getTime()
-            .getTime()) <= 0) {
-            return "expired";
-        }
+		final Calendar cal = Calendar.getInstance();
+		if ((passToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+			return "expired";
+		}
 
-        final User user = passToken.getUser();
-        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
-        SecurityContextHolder.getContext()
-            .setAuthentication(auth);
-        return null;
-    }
+		final User user = passToken.getUser();
+		final Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
+				Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		return null;
+	}
 
 }
