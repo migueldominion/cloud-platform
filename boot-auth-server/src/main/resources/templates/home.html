@@ -1,26 +1,27 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 <title th:text="#{label.pages.home.title}">home</title>
 <div th:replace="fragments/navbarcss :: navbarcss"></div>
 </head>
 <body>
-<div id="wrapper">
-<div th:replace="fragments/navbar :: navbar"></div>
+	<div id="wrapper">
+		<div th:replace="fragments/navbar :: navbar"></div>
 
-    <div id="page-wrapper">
-   	<div class="row">
-        <div class="col-lg-12">
-    		<h1 th:text="#{label.pages.home.message}">home</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-            
-    </div>
-</div>
-    <div th:replace="fragments/navbarjs :: navbarjs"></div>
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 th:text="#{label.pages.home.message}">home</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+
+		</div>
+	</div>
+	<div th:replace="fragments/navbarjs :: navbarjs"></div>
 </body>
 
 </html>

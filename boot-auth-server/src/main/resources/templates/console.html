@@ -1,81 +1,91 @@
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 <div th:replace="fragments/navbarcss :: navbarcss"></div>
 </head>
 <body>
-<div id="wrapper">
-<div th:replace="fragments/navbar :: navbar"></div>
+	<div id="wrapper">
+		<div th:replace="fragments/navbar :: navbar"></div>
 
-<div id="page-wrapper">
-	<div class="row">
-        <div class="col-lg-12">
-			<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<div th:if="${param.message != null}" class="alert alert-info"
+						th:text="${param.message[0]}">message</div>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
 
-	<div class="row">
-        <div class="col-lg-12">
-	
-    <h1>This is the landing page for the admin</h1>
-    
-    <div sec:authorize="hasAuthority('READ_PRIVILEGE')">This text is only visible to a user</div>
-          
-    <div sec:authorize="hasAuthority('WRITE_PRIVILEGE')"> This text is only visible to an admin</div>
-    
-      <a class="btn btn-default" th:href="@{/admin.html}" th:text="#{label.pages.admin}">admin</a>
-      <br/>
-      <a class="btn btn-default" th:href="@{/changePassword.html}" th:text="#{message.changePassword}">change password</a>
-      <br/>
-      <br/>
-      <br/>
-      
-      <div th:if="${#authentication.principal.using2FA}">
-        You are using Two-step authentication <a href="#" class="btn btn-primary" onclick="disable2FA()">Disable 2FA</a> 
-      </div>
-        
-      <div th:if="${! #authentication.principal.using2FA}">
-        You are not using Two-step authentication <a href="#" class="btn btn-primary" onclick="enable2FA()">Enable 2FA</a> 
-      </div>
-      
-      <br/>
-      <div id="qr" style="display:none;">
-          <p>Scan this Barcode using Google Authenticator app on your phone 
-                 <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android</a> and 
-                 <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605">iPhone</a>
-          </p>
-      </div>
-			<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-  </div>
-  <!-- /#page-wrapper -->
-</div>
-<!-- /#wrapper -->
-<div th:replace="fragments/navbarjs :: navbarjs"></div>
-<script type="text/javascript">
-function enable2FA(){
-    set2FA(true);
-}
+			<div class="row">
+				<div class="col-lg-12">
 
-function disable2FA(){
-    set2FA(false);
-}
+					<h1>This is the landing page for the admin</h1>
 
-function set2FA(use2FA){
-    $.post( "/user/update/2fa", { use2FA: use2FA } , function( data ) {
-        if(use2FA){
-        	$("#qr").append('<img src="'+data.message+'" />').show();
-        }else{
-            window.location.reload();
-        }
-    });
-}
-</script>
+					<div sec:authorize="hasAuthority('READ_PRIVILEGE')">This text
+						is only visible to a user</div>
+
+					<div sec:authorize="hasAuthority('WRITE_PRIVILEGE')">This
+						text is only visible to an admin</div>
+
+					<a class="btn btn-default" th:href="@{/admin.html}"
+						th:text="#{label.pages.admin}">admin</a> <br /> <a
+						class="btn btn-default" th:href="@{/changePassword.html}"
+						th:text="#{message.changePassword}">change password</a> <br /> <br />
+					<br />
+
+					<div th:if="${#authentication.principal.using2FA}">
+						You are using Two-step authentication <a href="#"
+							class="btn btn-primary" onclick="disable2FA()">Disable 2FA</a>
+					</div>
+
+					<div th:if="${! #authentication.principal.using2FA}">
+						You are not using Two-step authentication <a href="#"
+							class="btn btn-primary" onclick="enable2FA()">Enable 2FA</a>
+					</div>
+
+					<br />
+					<div id="qr" style="display: none;">
+						<p>
+							Scan this Barcode using Google Authenticator app on your phone <a
+								href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android</a>
+							and <a
+								href="https://itunes.apple.com/us/app/google-authenticator/id388497605">iPhone</a>
+						</p>
+					</div>
+					<div th:if="${param.message != null}" class="alert alert-info"
+						th:text="${param.message[0]}">message</div>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<div th:replace="fragments/navbarjs :: navbarjs"></div>
+	<script type="text/javascript">
+		function enable2FA() {
+			set2FA(true);
+		}
+
+		function disable2FA() {
+			set2FA(false);
+		}
+
+		function set2FA(use2FA) {
+			$.post("/user/update/2fa", {
+				use2FA : use2FA
+			}, function(data) {
+				if (use2FA) {
+					$("#qr").append('<img src="'+data.message+'" />').show();
+				} else {
+					window.location.reload();
+				}
+			});
+		}
+	</script>
 </body>
 
 </html>

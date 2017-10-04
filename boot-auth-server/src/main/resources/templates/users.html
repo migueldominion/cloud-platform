@@ -7,16 +7,16 @@
 <div th:replace="fragments/navbarcss :: navbarcss"></div>
 </head>
 <body>
-<div id="wrapper">
-	<div th:replace="fragments/navbar :: navbar"></div>
+	<div id="wrapper">
+		<div th:replace="fragments/navbar :: navbar"></div>
 
-	<div id="page-wrapper">
-		<h2>Currently logged in users</h2>
-		<div th:each="user : ${users}">
-			<p th:text="${user}">user</p>
+		<div id="page-wrapper">
+			<h2>Currently logged in users</h2>
+			<div th:each="user : ${users}">
+				<p th:text="${user}">user</p>
+			</div>
 		</div>
 	</div>
-</div>
 	<div th:replace="fragments/navbarjs :: navbarjs"></div>
 </body>
 
