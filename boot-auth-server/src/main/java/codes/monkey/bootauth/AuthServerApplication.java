@@ -104,7 +104,7 @@ class AuthServerApplication extends WebMvcConfigurerAdapter {
 					// add templates only here if need to be protected by login page
 					.antMatchers("/admin.html", "/console.html", "/changePassword.html", "/home.html", "/homePage.html",
 							"/logout.html")
-					.antMatchers("/login*", "/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
+					.antMatchers("/admin*", "/login*", "/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
 							"/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
 							"/badUser*", "/user/resendRegistrationToken*", "/forgetPassword*", "/user/resetPassword*",
 							"/user/changePassword*", "/emailError*", "/resources/**", "/old/user/registration*",
